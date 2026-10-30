@@ -41,7 +41,7 @@ export default function CourseDetails() {
         if (!user && token) {
             try {
                 await dispatch(getMeAsync()).unwrap();
-            } catch (err) {
+            } catch {
                 // ignore, will redirect to login below
             }
         }
@@ -113,7 +113,7 @@ export default function CourseDetails() {
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                             backgroundClip: 'text'
-                        }}>৳ {course.price * 100}</p>
+                        }}>৳ {course.price?.toLocaleString()}</p>
 
                         <div>
                             {isAdmin ? (
