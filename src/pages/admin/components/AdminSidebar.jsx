@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
     LayoutDashboard,
     BookOpen,
@@ -12,34 +12,31 @@ import {
     X,
 } from "lucide-react";
 
+const Item = (props) => {
+    const { to, label, Icon, end = true, onClick, showLabel = true } = props;
+    const linkClass = ({ isActive }) => {
+        const baseClasses = "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200";
+        if (isActive) {
+            return `${baseClasses} bg-primary text-primary-content font-semibold shadow-md`;
+        }
+        return `${baseClasses} text-base-content font-medium hover:bg-primary/20 hover:text-primary`;
+    };
+
+    return (
+        <NavLink
+            to={to}
+            end={end}
+            onClick={onClick}
+            className={linkClass}
+        >
+            <Icon className="w-5 h-5 shrink-0" />
+            {showLabel && <span className="text-sm sm:text-base">{label}</span>}
+        </NavLink>
+    );
+};
+
 export default function AdminSidebar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const location = useLocation();
-
-    const Item = ({ to, label, Icon, end = true, onClick, showLabel = true }) => {
-        const linkClass = ({ isActive: navIsActive }) => {
-            // Custom active check for routes with children
-            let isActive = navIsActive;
-
-            const baseClasses = "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200";
-            if (isActive) {
-                return `${baseClasses} bg-primary text-primary-content font-semibold shadow-md`;
-            }
-            return `${baseClasses} text-base-content font-medium hover:bg-primary/20 hover:text-primary`;
-        };
-
-        return (
-            <NavLink
-                to={to}
-                end={end}
-                onClick={onClick}
-                className={linkClass}
-            >
-                <Icon className="w-5 h-5 shrink-0" />
-                {showLabel && <span className="text-sm sm:text-base">{label}</span>}
-            </NavLink>
-        );
-    };
 
     const menuItems = [
         { to: "/admin", label: "Overview", Icon: LayoutDashboard, end: true },
