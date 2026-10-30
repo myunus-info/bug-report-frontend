@@ -1,7 +1,4 @@
 # CourseMaster - Frontend
-Live Link: https://course-master4981.netlify.app/
-
-Video link: https://drive.google.com/file/d/1vjMrBxr0-7xqjxMX2EBEBw30D_av1pOu/view
 
 A modern E-learning platform frontend built with React, Redux Toolkit, and Tailwind CSS.
 
@@ -27,11 +24,13 @@ This is the frontend application of the CourseMaster platform, built with modern
 
 1. Clone the repository
 2. Navigate to the frontend directory:
+
    ```bash
    cd course-master-frontend
    ```
 
 3. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -39,6 +38,7 @@ This is the frontend application of the CourseMaster platform, built with modern
 4. Create a `.env` file in the root directory (see `.env.example`)
 
 5. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -60,6 +60,7 @@ VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
 **Required Variables:**
+
 - `VITE_API_BASE_URL` - The base URL of the backend API (required)
 
 ## Project Structure
@@ -87,11 +88,13 @@ src/
 ## Features
 
 ### Public Features
+
 - Browse courses with pagination, search, sorting, and filtering
 - View detailed course information
 - User registration and login
 
 ### Student Features
+
 - Enroll in courses
 - Watch video lectures (YouTube integration)
 - Mark lessons as complete
@@ -101,6 +104,7 @@ src/
 - View enrolled courses dashboard
 
 ### Admin Features
+
 - Create, update, and delete courses
 - Add course syllabus (modules, lessons, videos, assignments, quizzes)
 - Manage course batches
@@ -129,9 +133,3 @@ For complete API documentation with request/response formats, see [courseMaster_
 - Development server runs on `http://localhost:5173` (default Vite port)
 - Hot Module Replacement (HMR) is enabled
 - ESLint is configured for code quality
-
-## Deployment
-
-The frontend can be deployed to:
-- **Netlify**
-
