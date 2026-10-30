@@ -139,9 +139,9 @@ export default function CoursePlayer() {
                         <div className="card bg-base-100 shadow">
                             <div className="card-body p-3 sm:p-6">
                                 <h3 className="card-title text-base sm:text-lg md:text-xl break-words">{lesson.title}</h3>
-                                <div className="bg-base-300 rounded overflow-hidden mt-2 sm:mt-4">
+                                <div className="aspect-video bg-base-300 rounded overflow-hidden mt-2 sm:mt-4">
                                     <iframe
-                                        style={{ height: '700px', width: '300px' }}
+                                        className="w-full h-full"
                                         src={convertToEmbedUrl(lesson.videoUrl)}
                                         title={lesson.title}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -152,10 +152,10 @@ export default function CoursePlayer() {
 
                                 <button
                                     onClick={handleMarkComplete}
-                                    disabled={!!enrollment?.progress?.completedLessons?.includes(lesson)}
-                                    className={`btn btn-sm sm:btn-md ${enrollment?.progress?.completedLessons?.includes(lesson) ? "btn-disabled" : "btn-success"} mt-3 sm:mt-4 w-full sm:w-auto`}
+                                    disabled={!!enrollment?.progress?.completedLessons?.some((id) => String(id) === String(lesson?._id))}
+                                    className={`btn btn-sm sm:btn-md ${enrollment?.progress?.completedLessons?.some((id) => String(id) === String(lesson?._id)) ? "btn-disabled" : "btn-success"} mt-3 sm:mt-4 w-full sm:w-auto`}
                                 >
-                                    {enrollment?.progress?.completedLessons?.includes(lesson) ? "Completed ✓" : "✓ Mark as Complete"}
+                                    {enrollment?.progress?.completedLessons?.some((id) => String(id) === String(lesson?._id)) ? "Completed ✓" : "✓ Mark as Complete"}
                                 </button>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ export default function CoursePlayer() {
                                                 const hasAssignment = !!les.assignmentPrompt;
                                                 const hasQuiz = les.quiz && les.quiz.length > 0;
                                                 const hasLiveClass = !!les.liveClassLink;
-                                                const isCompleted = enrollment?.progress?.completedLessons?.includes(les._id);
+                                                const isCompleted = enrollment?.progress?.completedLessons?.some((id) => String(id) === String(les._id));
                                                 
                                                 // Check if live class is upcoming
                                                 const isUpcoming = hasLiveClass && les.liveClassDate && new Date(les.liveClassDate) > new Date();
@@ -255,7 +255,12 @@ export default function CoursePlayer() {
                                                         </span>
                                                         <div className="flex items-center gap-1 flex-shrink-0">
                                                             {hasLiveClass && (
-                                                                <span className="badge badge-xs badge-info" title="Has Live Class">🔴</span>
+                                                                <span
+                                                                    className={`badge badge-xs ${isUpcoming ? "badge-warning" : "badge-info"}`}
+                                                                    title={isUpcoming && liveClassDate ? `Live Class scheduled: ${liveClassDate.toLocaleString()}` : "Has Live Class"}
+                                                                >
+                                                                    🔴
+                                                                </span>
                                                             )}
                                                             {hasAssignment && (
                                                                 <span className="badge badge-xs badge-secondary" title="Has Assignment">📝</span>
@@ -768,7 +773,7 @@ function QuizInterface({ quiz, courseId, lessonId, enrollment, onComplete }) {
                                         >
                                             <input
                                                 type="radio"
-                                                name="quiz-option"
+                                                name={`quiz-option-${qIdx}`}
                                                 checked={answers[qIdx] === oIdx}
                                                 onChange={() => {
                                                     if (!loading) {
